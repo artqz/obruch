@@ -1,8 +1,15 @@
+@extends('layouts.app')
+
+@section('title', 'Добавить пользователя')
+
+@section('content')
 Добавить пользователя
-{{ Form::token() }}
 {{ Form::open(['url' => 'admin/users', 'method' => 'put']) }}
-    {{ Form::label('login', 'Логин') }}
-    {{ Form::text('login', null, ['placeholder' => 'kuznetsov']) }}
+    <div class="input-group">
+        {{ Form::label('login', 'Логин') }}
+        {{ Form::text('login', null, ['placeholder' => 'kuznetsov', 'class' => 'form-control']) }}
+        <small id="emailHelp" class="form-text text-muted">Логин требуется для авторизации в программе.</small>
+    </div>
     {{ Form::label('rang', 'Должность') }}
     {{ Form::text('rang', null, ['placeholder' => 'Инженер']) }}
     {{ Form::label('email', 'Эл. почта') }}
@@ -18,3 +25,4 @@
     {{ Form::submit('Зарегистрировать') }}
 {{ Form::close() }}
 {{ $errors }}
+@endsection
