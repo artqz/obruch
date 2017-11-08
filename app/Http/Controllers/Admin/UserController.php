@@ -17,6 +17,24 @@ class UserController extends Controller
 
     public function create()
     {      
-        return view('admin.users.create', compact('users'));
+        return view('admin.users.create');
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'login' => 'required|string|max:255|regex:/^[\w-]*$/|unique:users',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        return User::create([
+            'login' => $request->input('login'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+        dd($request);
     }
 }
