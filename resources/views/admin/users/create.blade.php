@@ -3,12 +3,15 @@
 @section('title', 'Добавить пользователя')
 
 @section('content')
-    <i class="fa fa-address-book-o" aria-hidden="true"></i> Добавить пользователя
+    <br>
+    <h1><i class="fa fa-address-book-o" aria-hidden="true"></i> Добавить пользователя</h1>
+    <hr>
 {{ Form::open(['url' => 'admin/users', 'method' => 'put']) }}
     <div class="form-group">
         {{ Form::label('login', 'Логин') }}
         {{ Form::text('login', null, ['placeholder' => 'kuznetsov', 'class' => 'form-control']) }}
         <small id="loginHelp" class="form-text text-muted">Логин сотрудника, требуется для авторизации в программе.</small>
+        <small id="loginHelp" class="text-danger">{{ $errors->first('login') }}</small>
     </div>
     <div class="form-group">
         {{ Form::label('rang', 'Должность') }}
@@ -36,7 +39,7 @@
         <small id="birthdateHelp" class="form-text text-muted">Пароль от учетной записи сатрудника, рекомендуется предупредить сотрудника о необходимости смены стандартного пароля.</small>
     </div>
     <div class="form-group">
-        {{ Form::label('photo', 'Пароль') }}
+        {{ Form::label('photo', 'Фотография') }}
         {{ Form::file('photo', ['class' => 'form-control']) }}
         <small id="photoHelp" class="form-text text-muted">Фотография сотрудника, будет отображена в профиле.</small>
     </div>

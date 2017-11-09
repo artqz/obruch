@@ -12,7 +12,7 @@
 
 </head>
 <body>
-<h1>@yield('title')</h1>
+@include('layouts.navigation')
 <div class="container">
     @yield('content')
 </div>
