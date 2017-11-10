@@ -4,8 +4,8 @@
 
 @section('content')
 список всех пользователей
-<a href="users/create">add user</a>
+<a href="{{ url('admin/users/create') }}">add user</a>
 @foreach ($users as $user)
-    <p>This is user {{ $user->name }}</p>
+    <a href="{{ url('admin/users/' . $user->id) }}">{{ $user->name }}</a>
 @endforeach
 @endsection

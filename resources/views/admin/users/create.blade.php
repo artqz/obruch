@@ -6,7 +6,7 @@
     <br>
     <h1><i class="fa fa-address-book-o" aria-hidden="true"></i> Добавить пользователя</h1>
     <hr>
-{{ Form::open(['url' => 'admin/users', 'method' => 'put']) }}
+{{ Form::open(['url' => 'admin/users', 'method' => 'post']) }}
     <div class="form-group">
         {{ Form::label('login', 'Логин') }}
         {{ Form::text('login', null, ['placeholder' => 'kuznetsov', 'class' => 'form-control']) }}
@@ -43,6 +43,7 @@
         <small id="passwordHelp" class="form-text text-muted">Пароль от учетной записи сатрудника, рекомендуется предупредить сотрудника о необходимости смены стандартного пароля.</small>
         <small id="passwordHelp" class="text-danger">{{ $errors->first('password') }}</small>
     </div>
+    <a href="{{ url('admin/users/') }}" class="btn btn-secondary">Вернуться назад</a>
     {{ Form::submit('Зарегистрировать', ['class' => 'btn btn-success']) }}
 {{ Form::close() }}
 @endsection

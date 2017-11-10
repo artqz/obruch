@@ -17,4 +17,5 @@ Route::get('/', function () {
 
 Route::get('admin/users', 'Admin\UserController@index');
 Route::get('admin/users/create', 'Admin\UserController@create');
-Route::put('admin/users', 'Admin\UserController@store');
+Route::post('admin/users', 'Admin\UserController@store');
+Route::get('admin/users/{id}', 'Admin\UserController@show');
