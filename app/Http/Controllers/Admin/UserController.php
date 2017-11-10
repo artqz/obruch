@@ -31,8 +31,10 @@ class UserController extends Controller
 
         return User::create([
             'login' => $request->input('login'),
+            'rang' => $request->input('rang'),
             'name' => $request->input('name'),
             'email' => $request->input('email'),
+            'birthdate' => $request->input('birthdate'),
             'password' => bcrypt($request->input('password')),
         ]);
         dd($request);
