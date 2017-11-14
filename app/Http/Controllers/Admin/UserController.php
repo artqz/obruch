@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Validator;
 
 class UserController extends Controller
 {
@@ -35,7 +36,7 @@ class UserController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        return User::create([
+        $user = User::create([
             'login' => $request->input('login'),
             'rang' => $request->input('rang'),
             'name' => $request->input('name'),
@@ -43,6 +44,53 @@ class UserController extends Controller
             'birthdate' => $request->input('birthdate'),
             'password' => bcrypt($request->input('password')),
         ]);
-        dd($request);
+
+        return redirect('admin/users/'. $user->id);
+    }
+
+    public function update_info(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'login' => 'required|string|max:255|regex:/^[\w-]*$/|unique:users,login,'.$id,
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(url()->previous() . '#info')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        User::where('id', $id)
+            ->update([
+            'login' => $request->input('login'),
+            'rang' => $request->input('rang'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'birthdate' => $request->input('birthdate'),
+        ]);
+
+        return redirect(url()->previous() . '#info');;
+    }
+
+    public function update_password(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(url()->previous() . '#password')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        User::where('id', $id)
+            ->update([
+                'password' => bcrypt($request->input('password')),
+            ]);
+
+        return redirect(url()->previous() . '#password');
     }
 }
