@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->date('birthdate');
             $table->string('email')->unique();
             $table->string('password');
+            $table->ipAddress('ip_address');
+            $table->boolean('is_hide')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

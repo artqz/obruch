@@ -3,7 +3,8 @@
 @section('title', 'Список всех пользователей')
 
 @section('content')
-список всех пользователей
+<h1>Список пользователей</h1>
+<hr>
 <a href="{{ url('admin/users/create') }}">add user</a>
 <table class="table table-bordered">
     <thead>
@@ -18,9 +19,9 @@
 
     @foreach ($users as $user)
         <tr>
-            <td>{{ $user->name }}</td>
+            <td><img src="{{ url('images/users/'. $user->photo) }}" alt="{{ $user->login }}" style="width: 30px; border-radius: 50%;"> {{ $user->name }} {{ ($user->is_hide) ? '(Удален)' : '' }}</td>
             <td>{{ $user->email }}</td>
-            <td>ip</td>
+            <td>{{ $user->ip_address }}</td>
             <td><a href="{{ url('admin/users/' . $user->id) }}" class="btn btn-primary btn-sm" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> Редактировать</a></td>
         </tr>
     @endforeach

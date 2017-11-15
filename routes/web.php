@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Auth::routes();
+
 /* Маршруты Админ-панели */
 Route::get('admin/users', 'Admin\UserController@index');
 Route::get('admin/users/create', 'Admin\UserController@create');
@@ -22,3 +21,5 @@ Route::get('admin/users/{id}', 'Admin\UserController@show');
 Route::post('admin/users/{id}/update_info', 'Admin\UserController@update_info');
 Route::post('admin/users/{id}/update_password', 'Admin\UserController@update_password');
 Route::post('admin/users/{id}/update_photo', 'Admin\UserController@update_photo');
+Route::get('admin/users/{id}/delete', 'Admin\UserController@delete');
+Route::get('admin/users/{id}/restore', 'Admin\UserController@restore');

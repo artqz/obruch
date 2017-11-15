@@ -4,8 +4,9 @@
 
 @section('content')
     <br>
-    <h1><i class="fa fa-address-book-o" aria-hidden="true"></i> Редактор пользователя</h1>
+    <h1><i class="fa fa-address-book-o" aria-hidden="true"></i> Редактор пользователя - {{ $user->login }}</h1>
     <hr>
+    @if(!$user->is_hide)
     <a name="info"></a>
     <h2>Информация о пользователе</h2>
     {{ Form::open(['url' => 'admin/users/'. $user->id .'/update_info', 'method' => 'post']) }}
@@ -60,25 +61,42 @@
     <hr>
     <a name="photo"></a>
     <h2>Фотография пользователя</h2>
-    {{ Form::open(['url' => 'admin/users/'. $user->id .'/update_photo', 'method' => 'post']) }}
-    <div class="form-group row">
-        <div class="col-xl-4">
-            фото
+    {{ Form::open(['url' => 'admin/users/'. $user->id .'/update_photo', 'method' => 'post', 'files' => 'true', 'enctype'=>'multipart/form-data']) }}
+    <div class="row">
+        <div class="col-xl-3">
+            <img src="/images/users/{{ $user->photo }}" alt="{{ $user->login }}" class="rounded-circle">
         </div>
-        <div class="col-xl-8">
-            {{ Form::label('photo', 'Фотография') }}
-            {{ Form::file('photo', ['class' => 'form-control']) }}
-            <small id="passwordHelp" class="form-text text-muted">Фотография пользователя.</small>
-            <small id="passwordHelp" class="text-danger">{{ $errors->first('photo') }}</small>
+        <div class="col-xl-9">
+            <div class="form-group">
+                {{ Form::label('photo', 'Фотография') }}
+                {{ Form::file('photo', ['class' => 'form-control']) }}
+                <small id="passwordHelp" class="form-text text-muted">Фотография пользователя.</small>
+                <small id="passwordHelp" class="text-danger">{{ $errors->first('photo') }}</small>
+            </div>
+            <div class="form-group">
+                {{ Form::button('<i class="fa fa-check-circle-o" aria-hidden="true"></i> Загрузить', ['type' => 'submit', 'class' => 'btn btn-success']) }}
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        {{ Form::button('<i class="fa fa-check-circle-o" aria-hidden="true"></i> Изменить', ['type' => 'submit', 'class' => 'btn btn-success']) }}
     </div>
     {{ Form::close() }}
     <hr>
     <div class="form-group">
         <a href="{{ url('admin/users/') }}" class="btn btn-secondary"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Вернуться назад</a>
-        <a href="{{ url('admin/users/') }}" class="btn btn-danger" onclick="return confirm('Точно удалить?')"><i class="fa fa-trash-o" aria-hidden="true"></i> Удалить</a>
+        @if($user->is_hide)
+            <a href="{{ url('admin/users/'. $user->id .'/restore') }}" class="btn btn-primary" onclick="return confirm('Вы точно хотите восстановить профиль этого пользователя?')"><i class="fa fa-history" aria-hidden="true"></i> Восстановить</a>
+        @else
+            <a href="{{ url('admin/users/'. $user->id .'/delete') }}" class="btn btn-danger" onclick="return confirm('Точно удалить?')"><i class="fa fa-trash-o" aria-hidden="true"></i> Удалить</a>
+        @endif
     </div>
+    @else
+        <p>Данный пользователь удален!</p>
+    <div class="form-group">
+        <a href="{{ url('admin/users/') }}" class="btn btn-secondary"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Вернуться назад</a>
+        @if($user->is_hide)
+            <a href="{{ url('admin/users/'. $user->id .'/restore') }}" class="btn btn-primary" onclick="return confirm('Вы точно хотите восстановить профиль этого пользователя?')"><i class="fa fa-history" aria-hidden="true"></i> Восстановить</a>
+        @else
+            <a href="{{ url('admin/users/'. $user->id .'/delete') }}" class="btn btn-danger" onclick="return confirm('Точно удалить?')"><i class="fa fa-trash-o" aria-hidden="true"></i> Удалить</a>
+        @endif
+    </div>
+    @endif
 @endsection

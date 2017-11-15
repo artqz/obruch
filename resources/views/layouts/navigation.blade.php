@@ -32,6 +32,9 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+            {{ Form::open(['url' => 'logout', 'method' => 'post']) }}
+            {{ Form::button('<i class="fa fa-check-circle-o" aria-hidden="true"></i> Выйти', ['type' => 'submit', 'class' => 'btn btn-success']) }}
+            {{ Form::close() }}
         </div>
     </div>
 </nav>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 use Validator;
 
 class UserController extends Controller
@@ -43,9 +44,14 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'birthdate' => $request->input('birthdate'),
             'password' => bcrypt($request->input('password')),
+            'ip_address' => $request->ip(),
         ]);
 
-        return redirect('admin/users/'. $user->id);
+        return redirect('admin/users/'. $user->id)
+            ->with([
+                'flash_message' => 'Вы успешно создали аккаунт '.$request->input('login'),
+                'flash_message_status' => 'success',
+            ]);
     }
 
     public function update_info(Request $request, $id)
@@ -71,7 +77,11 @@ class UserController extends Controller
             'birthdate' => $request->input('birthdate'),
         ]);
 
-        return redirect(url()->previous() . '#info');;
+        return redirect(url()->previous() . '#info')
+            ->with([
+                'flash_message' => 'Вы успешно обновили информацию профиля',
+                'flash_message_status' => 'success',
+            ]);
     }
 
     public function update_password(Request $request, $id)
@@ -91,6 +101,74 @@ class UserController extends Controller
                 'password' => bcrypt($request->input('password')),
             ]);
 
-        return redirect(url()->previous() . '#password');
+        return redirect(url()->previous() . '#password')
+            ->with([
+                'flash_message' => 'Вы успешно обновили пароль',
+                'flash_message_status' => 'success',
+            ]);
+    }
+
+    public function update_photo(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'photo' => 'mimes:jpeg,jpg,png,gif|required|max:10000' // max 10000kb
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(url()->previous() . '#password')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $user = User::where('id', $id)->first();
+        $photo = $request->file('photo');
+        $filename = $user->login .'.'. $photo->getClientOriginalExtension();
+
+        Image::make($photo)
+            ->fit(200)
+            ->save(public_path('images/users/'. $filename));
+
+        User::where('id', $id)
+            ->update([
+                'photo' => $filename,
+            ]);
+
+        return redirect(url()->previous() . '#photo')
+            ->with([
+                'flash_message' => 'Вы успешно обновили фотографию профиля',
+                'flash_message_status' => 'success',
+            ]);
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $user = User::where('id', $id)->first();
+
+        User::where('id', $id)
+            ->update([
+                'is_hide' => true,
+            ]);
+
+        return redirect('admin/users/')
+            ->with([
+                'flash_message' => 'Вы успешно удалили профиль '. $user->login,
+                'flash_message_status' => 'success',
+            ]);
+    }
+
+    public function restore(Request $request, $id)
+    {
+        $user = User::where('id', $id)->first();
+
+        User::where('id', $id)
+            ->update([
+                'is_hide' => false,
+            ]);
+
+        return redirect(url()->previous())
+            ->with([
+                'flash_message' => 'Вы успешно восстановили профиль '. $user->login,
+                'flash_message_status' => 'success',
+            ]);
     }
 }
