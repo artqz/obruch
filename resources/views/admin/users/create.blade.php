@@ -4,7 +4,8 @@
 
 @section('content')
     <br>
-    <h1><i class="fa fa-address-book-o" aria-hidden="true"></i> Добавить пользователя</h1>
+    {!! Breadcrumbs::render('admin.users.create') !!}
+    <h1>Добавить пользователя</h1>
     <hr>
 {{ Form::open(['url' => 'admin/users', 'method' => 'post']) }}
     <div class="form-group">

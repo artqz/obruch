@@ -4,7 +4,8 @@
 
 @section('content')
     <br>
-    <h1><i class="fa fa-address-book-o" aria-hidden="true"></i> Редактор пользователя - {{ $user->login }}</h1>
+    {!! Breadcrumbs::render('admin.users.show', $user) !!}
+    <h1>Редактор пользователя - {{ $user->login }}</h1>
     <hr>
     @if(!$user->is_hide)
     <a name="info"></a>
