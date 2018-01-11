@@ -18,7 +18,7 @@ class OrganizationController extends Controller
     public function show($id)
     {
         $organization = Organization::where('id', $id)->first();
-        return view('admin.organizations.show', compact('organization'));
+        return view('admin.organizations.edit', compact('organization'));
     }
 
     public function create()

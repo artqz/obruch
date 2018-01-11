@@ -9,7 +9,7 @@
     <hr>
     @if(!$organization->is_hide)
     <a name="info"></a>
-    <h2>Информация о пользователе</h2>
+    <h2>Информация об организации</h2>
     {{ Form::open(['url' => 'admin/organizations/'. $organization->id .'/update_info', 'method' => 'post']) }}
         <div class="form-group">
             {{ Form::label('name', 'Наименование') }}
@@ -40,7 +40,7 @@
         <div class="form-group">
             {{ Form::label('coordinates', 'Координаты') }}
             {{ Form::text('coordinates', $organization->coordinates, ['placeholder' => '59.600202, 60.564895', 'class' => 'form-control']) }}
-            <small id="coordinatesHelp" class="form-text text-muted">Координаты, необходимы для отображения на карте.</small>
+            <small id="coordinatesHelp" class="form-text text-muted">Координаты, необходимы для отображения на карте (60.58064,59.593290).</small>
             <small id="coordinatesHelp" class="text-danger">{{ $errors->first('coordinates') }}</small>
         </div>
         <div class="form-group">
@@ -48,13 +48,33 @@
         </div>
     {{ Form::close() }}
     <hr>
-    <h2>Отделы</h2>
-    <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-            <h4 class="card-title">Special title treatment</h4>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header"><i class="fa fa-building-o" aria-hidden="true"></i> Отделы и сотрудники</div>
+                <div class="card-body">
+                    <p class="card-text">Список всех отделов и сотрудников организации</p>
+                    <a href="{{ url('admin/organizations/'. $organization->id .'/departments') }}" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header"><i class="fa fa-envelope-o" aria-hidden="true"></i> Входящая почта</div>
+                <div class="card-body">
+                    <p class="card-text">Вся входящая почта которая пришла от этой организации.</p>
+                    <a href="{{ url('admin/organizations/'. $organization->id .'/departments') }}" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header"><i class="fa fa-envelope-o" aria-hidden="true"></i> Исходящая почта</div>
+                <div class="card-body">
+                    <p class="card-text">Вся исходящая почта которая была отправлена данной организации.</p>
+                    <a href="{{ url('admin/organizations/'. $organization->id .'/departments') }}" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
         </div>
     </div>
     <hr>
@@ -77,4 +97,17 @@
         @endif
     </div>
     @endif
+@endsection
+
+@section('sidebar')
+    <br>
+    <div>
+        <div class="card bg-light mb-3">
+            <div class="card-header"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Последние именения</div>
+            <div class="card-body">
+                <p class="card-text">Вся исходящая почта которая была отправлена данной организации.</p>
+                <a href="{{ url('admin/organizations/'. $organization->id .'/departments') }}" class="btn btn-primary">Перейти</a>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class Inbox extends Model
 {
     protected $fillable = [
-        'name', 'organization_id', 'is_hide',
+        'name', 'number', 'date', 'reg_number', 'reg_date', 'folder', 'is_hide', 'organization_id'
     ];
 
     public function organization()

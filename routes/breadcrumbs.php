@@ -46,3 +46,21 @@ Breadcrumbs::register('admin.organizations.show', function($breadcrumbs, $organi
     $breadcrumbs->parent('admin.organizations');
     $breadcrumbs->push($organization->short_name, url('admin/organizations/{id}'));
 });
+
+Breadcrumbs::register('admin.organizations.departments', function($breadcrumbs, $organization)
+{
+    $breadcrumbs->parent('admin.organizations');
+    $breadcrumbs->push($organization->short_name, url('admin/organizations/'.$organization->id));
+});
+
+Breadcrumbs::register('admin.organizations.departments.index', function($breadcrumbs, $organization)
+{
+    $breadcrumbs->parent('admin.organizations.departments', $organization);
+    $breadcrumbs->push('Отделы', url('admin/organizations/'.$organization->id.'/departments'));
+});
+
+Breadcrumbs::register('admin.organizations.departments.create', function($breadcrumbs, $organization)
+{
+    $breadcrumbs->parent('admin.organizations.departments', $organization);
+    $breadcrumbs->push('Добавить отдел', url('admin/organizations/{id}/departments/create'));
+});

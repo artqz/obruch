@@ -20,7 +20,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::where('id', $id)->first();
-        return view('admin.users.show', compact('user'));
+        return view('admin.users.edit', compact('user'));
     }
 
     public function create()
