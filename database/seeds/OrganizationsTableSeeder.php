@@ -18,5 +18,12 @@ class OrganizationsTableSeeder extends Seeder
             'address' => 'г. Серов, ул. Загородка, 12',
             'coordinates' => '60.58064,59.593290',
         ]);
+        \App\Organization::create([
+            'name' => 'Администрация Серовского городского округа',
+            'short_name' => 'АСГО"',
+            'email' => 'info@adm-serov.ru',
+            'address' => 'г. Серов, ул. Ленина, 140',
+            'coordinates' => '60.58064,59.593290',
+        ]);
     }
 }

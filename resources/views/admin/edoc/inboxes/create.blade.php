@@ -44,7 +44,56 @@
         <small id="folderHelp" class="form-text text-muted">Номер документа входящего документа.</small>
         <small id="folderHelp" class="text-danger">{{ $errors->first('folder') }}</small>
     </div>
+    <div class="form-group">
+        {{ Form::label('organization', 'Откого') }}
+        <select name="organization" id="organization_list" class="form-control"></select>
+        <small id="organizationHelp" class="form-text text-muted">От какой организации пришел документ?</small>
+        <small id="organizationHelp" class="text-danger">{{ $errors->first('organization') }}</small>
+    </div>
     <a href="{{ url('admin/edoc/inbox/') }}" class="btn btn-secondary">Вернуться назад</a>
     {{ Form::submit('Зарегистрировать', ['class' => 'btn btn-success']) }}
 {{ Form::close() }}
+@endsection
+
+@section('styles')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+@endsection
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script>
+        $('#organization_list').select2({
+            placeholder: 'Выберите организацию',
+            language: {
+                noResults: function (params) {
+                    return "Нет такой организации.";
+                },
+                searching: function () {
+                    return 'Поиск…';
+                }
+            },
+            ajax: {
+                dataType: 'json',
+                url: '{{ url("api/organizations") }}',
+                type: 'POST',
+                delay: 400,
+                data: function(params) {
+                    return {
+                        "_token": "{{ csrf_token() }}",
+                        term: params.term
+                    }
+                },
+                processResults: function (data, page) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.name,
+                                slug: item.short_name,
+                                id: item.id
+                            }
+                        })
+                    };
+                },
+            }
+        });
+    </script>
 @endsection

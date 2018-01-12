@@ -13,6 +13,9 @@
 
 Auth::routes();
 
+/* API */
+Route::post('api/organizations', 'ApiController@organizations_search');
+
 /* Маршруты Админ-панели */
 Route::get('admin', 'Admin\DashboardController@index');
 

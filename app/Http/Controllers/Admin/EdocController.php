@@ -32,7 +32,8 @@ class EdocController extends Controller
             'reg_number' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'number' => 'required|string',
-            'folder' => 'required|string'
+            'folder' => 'required|string',
+            'organization' => 'required'
         ]);
 
         $user = Inbox::create([
@@ -42,7 +43,7 @@ class EdocController extends Controller
             'number' => $request->input('number'),
             'date' => $request->input('date'),
             'folder' => $request->input('folder'),
-            'organization_id' => 1
+            'organization_id' => $request->input('organization')
         ]);
 
         return redirect('admin/edoc/inbox/')

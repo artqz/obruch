@@ -19,9 +19,6 @@
             <th>Тема</th>
             <th>Откуда</th>
             <th>Дата регистрации</th>
-            <th>Номер документа</th>
-            <th>Дата документа</th>
-            <th>Дело</th>
             <th>Управление</th>
         </tr>
         </thead>
@@ -32,9 +29,6 @@
                 <td>{{ $inbox->name }} {{ ($inbox->is_hide) ? '(Удален)' : '' }}</td>
                 <td><a href="/">{{ $inbox->organization->name }}</a></td>
                 <td>{{ $inbox->reg_date }}</td>
-                <td>{{ $inbox->number }}</td>
-                <td>{{ $inbox->date }}</td>
-                <td>{{ $inbox->folder }}</td>
                 <td><a href="{{ url('admin/edoc/inbox/' . $inbox->id) }}" class="btn btn-primary btn-sm" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> Редактировать</a></td>
             </tr>
         @endforeach
