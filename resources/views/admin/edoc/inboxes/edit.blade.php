@@ -64,7 +64,7 @@
         <small id="tagsHelp" class="text-danger">{{ $errors->first('tags') }}</small>
     </div>
     <a href="{{ url('admin/edoc/inbox/') }}" class="btn btn-secondary">Вернуться назад</a>
-    {{ Form::submit('Зарегистрировать', ['class' => 'btn btn-success']) }}
+    {{ Form::submit('Редактировать', ['class' => 'btn btn-success']) }}
 {{ Form::close() }}
 @endsection
 

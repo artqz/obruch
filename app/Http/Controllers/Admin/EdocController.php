@@ -28,6 +28,46 @@ class EdocController extends Controller
         return view('admin.edoc.inboxes.edit', compact('inbox'));
     }
 
+    public function inbox_update($id, Request $request)
+    {
+        $inbox = Inbox::where('id', $id)->first();
+        if (!$inbox) {
+            return redirect(url()->previous())
+                ->with([
+                    'flash_message' => 'Вы успешно обновили информацию',
+                    'flash_message_status' => 'success',
+                ]);
+        }
+
+        $this->validate($request, [
+            'reg_number' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'number' => 'required|string',
+            'folder' => 'required|string',
+            'organization' => 'required',
+            'tags' => 'required'
+        ]);
+
+        Inbox::where('id', $id)
+            ->update([
+                'reg_number' => $request->input('reg_number'),
+                'name' => $request->input('name'),
+                'reg_date' => $request->input('reg_date'),
+                'number' => $request->input('number'),
+                'date' => $request->input('date'),
+                'folder' => $request->input('folder'),
+                'organization_id' => $request->input('organization')
+            ]);
+
+        $inbox->tags()->sync($request->input('tags'));
+
+        return redirect(url()->previous())
+            ->with([
+                'flash_message' => 'Вы успешно обновили информацию',
+                'flash_message_status' => 'success',
+            ]);
+    }
+
     public function inbox_create()
     {
         return view('admin.edoc.inboxes.create');
@@ -56,6 +96,7 @@ class EdocController extends Controller
             'organization_id' => $request->input('organization')
         ]);
 
+        /* Автосоздание тегов
         foreach ($request->tags as $tag) {
 
             if (is_numeric($tag))
@@ -73,8 +114,9 @@ class EdocController extends Controller
 
             //now we have new array of tags id , example (1,2,3)
         }
+        */
 
-        $inbox->tags()->sync($tagArr, false);
+        $inbox->tags()->sync($request->input('tags'), false);
 
         return redirect('admin/edoc/inbox/')
         //return redirect('admin/edoc/inbox/'. $user->id)
