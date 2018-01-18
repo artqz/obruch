@@ -48,6 +48,7 @@ Route::get('admin/edoc/inbox', 'Admin\EdocController@inbox_index');
 Route::get('admin/edoc/inbox/create', 'Admin\EdocController@inbox_create');
 Route::post('admin/edoc/inbox', 'Admin\EdocController@inbox_store');
 Route::get('admin/edoc/inbox/{id}', 'Admin\EdocController@inbox_show');
+Route::post('admin/edoc/inbox/{id}', 'Admin\EdocController@inbox_update');
 Route::get('admin/edoc/outbox', 'Admin\EdocController@outbox_index');
 
 /* Маршруты Сайта */
