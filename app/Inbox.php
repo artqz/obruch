@@ -14,4 +14,9 @@ class Inbox extends Model
     {
         return $this->belongsTo('App\Organization');
     }
+
+    public function tags()
+    {
+        return $this->morphToMany('App\Tag', 'taggable');
+    }
 }

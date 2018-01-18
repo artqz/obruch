@@ -16,7 +16,7 @@
         <thead>
         <tr>
             <th>Рег/Номер</th>
-            <th>Тема</th>
+            <th width="50%">Тема</th>
             <th>Откуда</th>
             <th>Дата регистрации</th>
             <th>Управление</th>
@@ -26,7 +26,13 @@
         @foreach ($inboxes as $inbox)
             <tr>
                 <td>{{ $inbox->reg_number }}</td>
-                <td>{{ $inbox->name }} {{ ($inbox->is_hide) ? '(Удален)' : '' }}</td>
+                <td>
+                    {{ $inbox->name }} {{ ($inbox->is_hide) ? '(Удален)' : '' }}
+                    <br>
+                    @foreach ($inbox->tags as $tag)
+                        <span class="badge badge-info">{{ $tag->name }}</span>
+                    @endforeach
+                </td>
                 <td><a href="/">{{ $inbox->organization->name }}</a></td>
                 <td>{{ $inbox->reg_date }}</td>
                 <td><a href="{{ url('admin/edoc/inbox/' . $inbox->id) }}" class="btn btn-primary btn-sm" role="button"><i class="fa fa-pencil" aria-hidden="true"></i> Редактировать</a></td>

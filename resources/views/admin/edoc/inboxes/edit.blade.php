@@ -5,7 +5,7 @@
 @section('content')
     <br>
     {!! Breadcrumbs::render('admin.users.create') !!}
-    <h1>Добавить входящий</h1>
+    <h1>Редактировать входящий</h1>
     <hr>
 {{ Form::open(['url' => 'admin/edoc/inbox', 'method' => 'post']) }}
     <div class="form-group">

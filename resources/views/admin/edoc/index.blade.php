@@ -6,4 +6,6 @@
     <a href="edoc/inbox">Входящие</a>
     <br>
     <a href="edoc/outbox">Исходящие</a>
+    <br>
+    <a href="edoc/tags">Ярлыки</a>
 @endsection
