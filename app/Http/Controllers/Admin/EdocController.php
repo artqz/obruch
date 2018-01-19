@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Inbox;
-use App\Tag;
+use App\Rules\ValidInboxId;
 use App\Outbox;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Symfony\Component\Console\Input\InputDefinition;
 
 class EdocController extends Controller
 {
@@ -30,12 +32,13 @@ class EdocController extends Controller
 
     public function inbox_update($id, Request $request)
     {
+        dd($request);
         $inbox = Inbox::where('id', $id)->first();
         if (!$inbox) {
             return redirect(url()->previous())
                 ->with([
-                    'flash_message' => 'Вы успешно обновили информацию',
-                    'flash_message_status' => 'success',
+                    'flash_message' => 'Нет такого айди',
+                    'flash_message_status' => 'danger',
                 ]);
         }
 
@@ -70,7 +73,10 @@ class EdocController extends Controller
 
     public function inbox_create()
     {
-        return view('admin.edoc.inboxes.create');
+        //Получаем текущий год
+        $year_now =  Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now())->year;
+        $inbox_next_number = Inbox::whereYear('reg_date', $year_now)->where('is_hide', 0)->max('reg_number') + 1;
+        return view('admin.edoc.inboxes.create', compact('inbox_next_number'));
     }
 
     public function inbox_store(Request $request)
@@ -78,13 +84,23 @@ class EdocController extends Controller
         //dd($request);
 
         $this->validate($request, [
-            'reg_number' => 'required|string|max:255',
+            'reg_number' => ['required','string','max:255', new ValidInboxId],
             'name' => 'required|string|max:255',
             'number' => 'required|string',
             'folder' => 'required|string',
             'organization' => 'required',
             'tags' => 'required'
         ]);
+
+        $inbox_get = Inbox::where('reg_number', $request->input('reg_number'))->first();
+        if ($inbox_get) {
+            return redirect()
+                ->back()
+                ->with([
+                    'flash_message' => 'Такой регистрационный номер уже существует',
+                    'flash_message_status' => 'danger',
+                ]);
+        }
 
         $inbox = Inbox::create([
             'reg_number' => $request->input('reg_number'),

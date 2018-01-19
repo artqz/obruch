@@ -10,9 +10,15 @@
 {{ Form::open(['url' => 'admin/edoc/inbox', 'method' => 'post']) }}
     <div class="form-group">
         {{ Form::label('reg_number', 'Регистрационный номер') }}
-        {{ Form::text('reg_number', null, ['placeholder' => '1', 'class' => 'form-control']) }}
+        {{ Form::text('reg_number', $inbox_next_number, ['placeholder' => '1', 'class' => 'form-control']) }}
         <small id="regNumberHelp" class="form-text text-muted">Регистрационный номер документа.</small>
         <small id="regNumberHelp" class="text-danger">{{ $errors->first('reg_number') }}</small>
+    </div>
+    <div class="form-group">
+        {{ Form::label('reg_date', 'Дата регистрации') }}
+        {{ Form::date('reg_date', \Carbon\Carbon::now(), ['class' => 'form-control']) }}
+        <small id="regDateHelp" class="form-text text-muted">Дата регистрации входящегно документа.</small>
+        <small id="regDateHelp" class="text-danger">{{ $errors->first('reg_date') }}</small>
     </div>
     <div class="form-group">
         {{ Form::label('name', 'Тема документа') }}
@@ -21,13 +27,7 @@
         <small id="nameHelp" class="text-danger">{{ $errors->first('name') }}</small>
     </div>
     <div class="form-group">
-        {{ Form::label('reg_date', 'Дата регистрации') }}
-        {{ Form::date('reg_date', null, ['class' => 'form-control']) }}
-        <small id="regDateHelp" class="form-text text-muted">Дата регистрации входящегно документа.</small>
-        <small id="regDateHelp" class="text-danger">{{ $errors->first('reg_date') }}</small>
-    </div>
-    <div class="form-group">
-        {{ Form::label('number', 'Номер') }}
+        {{ Form::label('number', 'Номер документа') }}
         {{ Form::text('number', null, ['placeholder' => '11-01-17/2', 'class' => 'form-control']) }}
         <small id="numberHelp" class="form-text text-muted">Номер документа входящего документа.</small>
         <small id="numberHelp" class="text-danger">{{ $errors->first('number') }}</small>
@@ -114,7 +114,7 @@
     </script>
     <script>
         $('#tag_list').select2({
-            tags: true,
+            //tags: true,
             tokenSeparators: [',', ' '],
             multiple: true,
             placeholder: 'Введите тэги',

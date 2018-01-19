@@ -7,6 +7,21 @@
     {!! Breadcrumbs::render('admin.users.create') !!}
     <h1>Редактировать входящий</h1>
     <hr>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="card-tab" data-toggle="tab" href="#card" role="tab" aria-controls="card" aria-selected="true">Карточка</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Исполнители</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Файлы</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="card" role="tabpanel" aria-labelledby="card-tab">
+            <br>
+
 {{ Form::open(['url' => 'admin/edoc/inbox/'.$inbox->id, 'method' => 'post']) }}
     <div class="form-group">
         {{ Form::label('reg_number', 'Регистрационный номер') }}
@@ -15,19 +30,19 @@
         <small id="regNumberHelp" class="text-danger">{{ $errors->first('reg_number') }}</small>
     </div>
     <div class="form-group">
-        {{ Form::label('name', 'Тема документа') }}
-        {{ Form::text('name', $inbox->name, ['placeholder' => 'О внесении изменений', 'class' => 'form-control']) }}
-        <small id="nameHelp" class="form-text text-muted">Тема входящего документа.</small>
-        <small id="nameHelp" class="text-danger">{{ $errors->first('name') }}</small>
-    </div>
-    <div class="form-group">
         {{ Form::label('reg_date', 'Дата регистрации') }}
         {{ Form::date('reg_date', $inbox->reg_date, ['class' => 'form-control']) }}
         <small id="regDateHelp" class="form-text text-muted">Дата регистрации входящегно документа.</small>
         <small id="regDateHelp" class="text-danger">{{ $errors->first('reg_date') }}</small>
     </div>
     <div class="form-group">
-        {{ Form::label('number', 'Номер') }}
+        {{ Form::label('name', 'Тема документа') }}
+        {{ Form::text('name', $inbox->name, ['placeholder' => 'О внесении изменений', 'class' => 'form-control']) }}
+        <small id="nameHelp" class="form-text text-muted">Тема входящего документа.</small>
+        <small id="nameHelp" class="text-danger">{{ $errors->first('name') }}</small>
+    </div>
+    <div class="form-group">
+        {{ Form::label('number', 'Номер документа') }}
         {{ Form::text('number', $inbox->number, ['placeholder' => '11-01-17/2', 'class' => 'form-control']) }}
         <small id="numberHelp" class="form-text text-muted">Номер документа входящего документа.</small>
         <small id="numberHelp" class="text-danger">{{ $errors->first('number') }}</small>
@@ -66,6 +81,10 @@
     <a href="{{ url('admin/edoc/inbox/') }}" class="btn btn-secondary">Вернуться назад</a>
     {{ Form::submit('Редактировать', ['class' => 'btn btn-success']) }}
 {{ Form::close() }}
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">.2.</div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+    </div>
 @endsection
 
 @section('styles')
